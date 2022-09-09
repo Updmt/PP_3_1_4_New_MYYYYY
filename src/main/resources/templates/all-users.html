@@ -14,20 +14,26 @@
 <table>
   <thead>
   <tr>
+    <th scope="col">Username</th>
     <th scope="col">Name</th>
     <th scope="col">Surname</th>
     <th scope="col">Department</th>
     <th scope="col">Salary</th>
+    <th scope="col">Password</th>
+    <th scope="col">Role</th>
     <th scope="col">Edit</th>
     <th scope="col">Delete</th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="user : ${allUsers}">
+    <td th:text="${user.username}">
     <td th:text="${user.name}">
     <td th:text="${user.surname}">
     <td th:text="${user.department}">
     <td th:text="${user.salary}">
+    <td th:text="${user.password}">
+    <td th:text="${user.roles}">
     </td>
     <td>
       <form th:action="@{/users/{id}/edit(id=${user.getId()})}">
@@ -46,7 +52,7 @@
 <br>
 
 <input type="button" value="Add new user"
-  onclick="window.location.href = 'addNewUser'"/>
+  onclick="window.location.href = 'users/addNewUser'"/>
 
 </body>
 </html>

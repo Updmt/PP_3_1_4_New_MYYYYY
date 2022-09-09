@@ -145,4 +145,5 @@ public class User implements UserDetails{
     public void setSalary(int salary) {
         this.salary = salary;
     }
+
 }

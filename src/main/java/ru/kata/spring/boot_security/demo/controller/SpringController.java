@@ -24,6 +24,12 @@ public class SpringController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/user")
+    public String userPage(Principal principal, Model model) {
+        model.addAttribute(userRepository.findByUsername(principal.getName()));
+        return "user";
+    }
+
     @GetMapping("/start")
     public String start(){
         return "startPage";
