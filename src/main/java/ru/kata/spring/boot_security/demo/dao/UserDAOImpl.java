@@ -23,7 +23,7 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public List<User> getAllUsers() {
-        return entityManager.createQuery("SELECT c FROM User c", User.class).getResultList();
+        return entityManager.createQuery("FROM User", User.class).getResultList();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public void update(int id, User updatedUser) {
+    public void update(User updatedUser) {
         entityManager.merge(updatedUser);
     }
 
@@ -46,14 +46,6 @@ public class UserDAOImpl implements UserDAO{
         entityManager.remove(get(id));
     }
 
-    /*@Override
-    public UserDetails loadUserByUsername(String username) {
-        User user = entityManager.find(User.class, username);
-        if (user == null){
-            throw new UsernameNotFoundException("User not found!");
-        }
-        return user;
-    }*/
 
     @Override
     public UserDetails loadUserByUsername(String username) {
