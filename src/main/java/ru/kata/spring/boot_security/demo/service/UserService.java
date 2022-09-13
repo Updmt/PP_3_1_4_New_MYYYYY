@@ -20,4 +20,6 @@ public interface UserService extends UserDetailsService {
 
     User createUser();
 
+    User getUserByUsername(String username);
+
 }

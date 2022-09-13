@@ -61,7 +61,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDAO.loadUserByUsername(username);
+        User user = userDAO.getUserByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
+        }
+        return user;
     }
 
     @Override
@@ -71,6 +75,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Role roleUser = roleDao.getRoleByName("ROLE_USER");
         user.addRole(roleUser);
         return user;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userDAO.getUserByUsername(username);
     }
 
 }

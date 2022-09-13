@@ -19,13 +19,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserServiceImpl userServiceImpl;
 
-    /*private final UserDetailsServ userDetailsServ;
-
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsServ userDetailsServ) {
-        this.successUserHandler = successUserHandler;
-        this.userDetailsServ = userDetailsServ;
-    }*/
-
     public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImpl userServiceImpl) {
         this.successUserHandler = successUserHandler;
         this.userServiceImpl = userServiceImpl;
@@ -35,8 +28,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/start").permitAll()
-                .antMatchers("/users/**").hasRole("ADMIN")
+                /*.antMatchers("/hihi").permitAll()*/
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().hasAnyRole("/user","ADMIN", "USER")
                 .and()
                 .formLogin().successHandler(successUserHandler)

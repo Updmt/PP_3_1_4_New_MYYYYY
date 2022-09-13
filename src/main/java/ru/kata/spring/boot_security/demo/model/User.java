@@ -27,14 +27,11 @@ public class User implements UserDetails{
     @Column(name="surname")
     private String surname;
 
-    @Column(name="department")
-    private String department;
+    @Column(name="age")
+    private int age;
 
-    @Column(name="salary")
-    private int salary;
-
-    @Column(name="username")
-    private String username;
+    @Column(name="email")
+    private String email;
 
     @Column(name="password")
     private String password;
@@ -47,12 +44,11 @@ public class User implements UserDetails{
 
     public User() {}
 
-    public User(String name, String surname, String department, int salary, String username, String password) {
+    public User(String name, String surname, int age, String email, String password) {
         this.name = name;
         this.surname = surname;
-        this.department = department;
-        this.salary = salary;
-        this.username = username;
+        this.age = age;
+        this.email = email;
         this.password = password;
     }
 
@@ -71,7 +67,7 @@ public class User implements UserDetails{
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -103,7 +99,7 @@ public class User implements UserDetails{
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.email = username;
     }
 
     public void setPassword(String password) {
@@ -134,20 +130,12 @@ public class User implements UserDetails{
         this.surname = surname;
     }
 
-    public String getDepartment() {
-        return department;
+    public int getAge() {
+        return age;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public int getSalary() {
-        return salary;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
+    public void setAge(int salary) {
+        this.age = salary;
     }
 
     public void addRole(Role roleUser) {
