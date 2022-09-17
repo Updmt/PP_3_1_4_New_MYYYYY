@@ -11,10 +11,11 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Set;
 
 
-@Controller
+@RestController
 public class AdminController {
 
     private final UserService userService;
@@ -25,7 +26,7 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/admin")
+    /*@GetMapping("/admin")
     public String showAllUsers(Principal principal, Model model){
         User user = userService.getUserByUsername(principal.getName());
         model.addAttribute("user", user);
@@ -57,5 +58,35 @@ public class AdminController {
     public String delete(@PathVariable("id") int id) {
         userService.delete(id);
         return "redirect:/admin";
+    }*/
+
+    @GetMapping("/admin")
+    public List<User> showAllUsers() {
+        List<User> allUsers = userService.getAllUsers();
+        return allUsers;
+    }
+
+    @GetMapping("/admin/{id}")
+    public User getUser(@PathVariable("id") int id) {
+        User user = userService.get(id);
+        return user;
+    }
+
+    @PostMapping("/admin")
+    public User addNewUser(@RequestBody User user) {
+        userService.createUser(user);
+        return user;
+    }
+
+    @PutMapping("/admin")
+    public User updateUser(@RequestBody User user) {
+        userService.update(user);
+        return user;
+    }
+
+    @DeleteMapping("/admin/{id}")
+    public String deleteUser(@PathVariable("id") int id) {
+        userService.delete(id);
+        return "User with id = " + id + " was deleted";
     }
 }
