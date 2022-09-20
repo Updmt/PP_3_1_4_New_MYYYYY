@@ -1,15 +1,20 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -87,5 +92,12 @@ public class RESTController {
     public String deleteUser(@PathVariable("id") int id) {
         userService.delete(id);
         return "User with id = " + id + " was deleted";
+    }
+
+    @GetMapping("/authorities")
+    public ResponseEntity<List<Role>> getAllRoles() {
+        List<Role> roles = roleService.getAllRoles();
+        List<Role> newRolesArray = roles.subList(0, 2);
+        return new ResponseEntity<>(newRolesArray, HttpStatus.OK);
     }
 }

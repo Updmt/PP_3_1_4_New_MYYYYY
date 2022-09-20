@@ -163,8 +163,7 @@
                         </div>
                         <div class="form-group text-center">
                           <label for="deleteRoles"><strong>Role</strong></label>
-                          <select multiple name="roles[]" required
-                                  class="form-control form-control-sm"
+                          <select multiple name="roles" required class="form-control form-control-sm"
                                   id="deleteRoles"
                                   size="2">
                           </select>
@@ -183,7 +182,7 @@
                 </div>
               </div>
             </div>
-            <div class="modal fade" tabindex="-1"
+            <div class="modal fade" tabindex="-1" id="editModal"
                  aria-labelledby="editModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -195,7 +194,7 @@
                     </button>
                   </div>
                   <div class="modal-body m-auto">
-                    <form>
+                    <form id="editFormBody">
                       <fieldset disabled>
                         <div class="form-group text-center">
                           <label for="ID"><strong>ID</strong></label>
@@ -243,23 +242,23 @@
                                id="password">
                       </div>
                       <div class="form-group text-center">
-                        <label for="Roles"><strong>Role</strong></label>
-                        <select multiple name="roles[]" required
+                        <label for="rolesEdit"><strong>Role</strong></label>
+                        <select multiple name="roles" required
                                 class="form-control form-control-sm"
-                                id="Roles"
+                                id="rolesEdit"
                                 size="2">
                         </select>
                       </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">Close
+                        </button>
+                        <input type="submit" class="btn btn-danger"
+                               value="Edit" id="editButton"/>
+                      </div>
                     </form>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal">Close
-                    </button>
-                    <button type="submit"
-                            class="btn btn-primary">Edit
-                    </button>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -307,7 +306,7 @@
                     </div>
                     <div class="form-group text-center">
                       <label for="newRoles"><strong>Role</strong></label>
-                      <select multiple name="roles[]" required
+                      <select multiple name="roles" required
                               class="form-control form-control-sm" id="newRoles"
                               size="2">
                       </select>

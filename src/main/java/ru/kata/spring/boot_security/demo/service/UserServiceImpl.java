@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void createUser(User user) {
-        user.setRoles(roleDao.getRolesByName(user.getRoles()));
+        //user.setRoles(roleDao.getRolesByName(user.getRoles()));
         userDAO.createUser(user);
     }
 
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void update(User updatedUser) {
-        updatedUser.setRoles(roleDao.getRolesByName(updatedUser.getRoles()));
+        //updatedUser.setRoles(roleDao.getRolesByName(updatedUser.getRoles()));
         userDAO.update(updatedUser);
     }
 
