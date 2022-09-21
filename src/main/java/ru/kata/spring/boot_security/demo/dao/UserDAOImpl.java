@@ -50,7 +50,7 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public User getUserByUsername(String username) {
-        return entityManager.createQuery("SELECT u FROM User AS u JOIN FETCH u.roles WHERE u.email= :username", User.class)
+        return entityManager.createQuery("SELECT u FROM User AS u JOIN FETCH u.roles WHERE u.username= :username", User.class)
                 .setMaxResults(1)
                 .setParameter("username", username)
                 .getSingleResult();

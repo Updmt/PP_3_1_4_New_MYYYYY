@@ -14,11 +14,9 @@ public class AdminController {
 
 
     private UserService userService;
-    private RoleService roleService;
 
-    public AdminController(UserService userService, RoleService roleService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
     @GetMapping("/admin")
@@ -29,13 +27,4 @@ public class AdminController {
         return "admin";
     }
 
-    /*@GetMapping("/admin")
-    public String showAllUsers(Principal principal, Model model) {
-        User user = userService.getUserByUsername(principal.getName());
-        model.addAttribute("user", user);
-        model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("newUser", userService.createUser());
-        model.addAttribute("listRoles", roleService.getAllRoles());
-        return "admin";
-    }*/
 }

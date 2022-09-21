@@ -1,11 +1,14 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -15,6 +18,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -76,16 +80,37 @@ public class RESTController {
         return user;
     }
 
-    @PostMapping("/users")
+    /*@PostMapping("/users/{id}")
     public User addNewUser(@RequestBody User user) {
         userService.createUser(user);
         return user;
+    }*/
+
+    @PostMapping("/users")
+    public ResponseEntity<?> createNewUser(@RequestBody User user, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            String error = getErrorsFromBindingResult(bindingResult);
+            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        }
+        try {
+            userService.createUser(user);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalStateException("User with such e-mail exists");
+        }
     }
 
-    @PutMapping("/users")
+    /*@PutMapping("/users")
     public User updateUser(@RequestBody User user) {
         userService.update(user);
         return user;
+    }*/
+
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        userService.update(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")
@@ -99,5 +124,12 @@ public class RESTController {
         List<Role> roles = roleService.getAllRoles();
         List<Role> newRolesArray = roles.subList(0, 2);
         return new ResponseEntity<>(newRolesArray, HttpStatus.OK);
+    }
+
+    private String getErrorsFromBindingResult(BindingResult bindingResult) {
+        return bindingResult.getFieldErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining("; "));
     }
 }

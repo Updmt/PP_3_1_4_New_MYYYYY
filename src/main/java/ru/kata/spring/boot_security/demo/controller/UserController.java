@@ -1,6 +1,9 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +21,8 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String userPage(Principal principal, Model model){
-        model.addAttribute("user", userService.loadUserByUsername(principal.getName()));
+    public String userPage(@AuthenticationPrincipal UserDetails userDetails, Model model){
+        model.addAttribute("user", userService.getUserByUsername(userDetails.getUsername()));
         return "user";
     }
 }
