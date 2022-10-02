@@ -33,62 +33,25 @@ public class RESTController {
         this.roleService = roleService;
     }
 
-    /*@GetMapping("/admin")
-    public String showAllUsers(Principal principal, Model model){
-        User user = userService.getUserByUsername(principal.getName());
-        model.addAttribute("user", user);
-        model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("newUser", userService.createUser());
-        model.addAttribute("listRoles",roleService.getAllRoles());
-        return "admin";
-    }
-
-    @PostMapping("/admin/new")
-    public String createUser(@ModelAttribute("newUser") User user) {
-        userService.createUser(user);
-        return "redirect:/admin";
-    }
-
-    @GetMapping("/admin/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.get(id));
-        return "user";
-    }
-
-    @PutMapping("/admin/updateUser/{id}")
-    public String update(@ModelAttribute("user") User user) {
-        userService.update(user);
-        return "redirect:/admin";
-    }
-
-    @DeleteMapping("/admin/delete/{id}")
-    public String delete(@PathVariable("id") int id) {
-        userService.delete(id);
-        return "redirect:/admin";
-    }*/
-
-
     @GetMapping("/users")
-    public List<User> showAllUsers() {
-        List<User> allUsers = userService.getAllUsers();
-        return allUsers;
+    public ResponseEntity<List<User>> showAllUsers() {
+        List<User> userList = userService.getAllUsers();
+        return userList != null && !userList.isEmpty() ?
+                new ResponseEntity<>(userList, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/users/{id}")
-    public User getUser(@PathVariable("id") int id) {
+    public ResponseEntity<User> getUser(@PathVariable("id") int id) {
         User user = userService.get(id);
-        return user;
+        return user != null ?
+                new ResponseEntity<>(user, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    /*@PostMapping("/users/{id}")
-    public User addNewUser(@RequestBody User user) {
-        userService.createUser(user);
-        return user;
-    }*/
 
     @PostMapping("/users")
     public ResponseEntity<?> createNewUser(@RequestBody User user, BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
             String error = getErrorsFromBindingResult(bindingResult);
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -101,12 +64,6 @@ public class RESTController {
         }
     }
 
-    /*@PutMapping("/users")
-    public User updateUser(@RequestBody User user) {
-        userService.update(user);
-        return user;
-    }*/
-
     @PatchMapping("/users/{id}")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         userService.update(user);
@@ -114,9 +71,9 @@ public class RESTController {
     }
 
     @DeleteMapping("/users/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
+    public ResponseEntity<?> delete(@PathVariable int id) {
         userService.delete(id);
-        return "User with id = " + id + " was deleted";
+        return new ResponseEntity<>(("User was deleted."), HttpStatus.OK);
     }
 
     @GetMapping("/authorities")

@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
@@ -21,8 +22,8 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String userPage(@AuthenticationPrincipal UserDetails userDetails, Model model){
-        model.addAttribute("user", userService.getUserByUsername(userDetails.getUsername()));
+    public String userPage(@AuthenticationPrincipal User user, Model model){
+        model.addAttribute("user", userService.getUserByUsername(user.getUsername()));
         return "user";
     }
 }
