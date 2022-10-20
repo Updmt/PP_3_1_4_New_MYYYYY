@@ -1,13 +1,11 @@
 package ru.kata.spring.boot_security.demo.dao;
 
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -16,9 +14,11 @@ public class UserDAOImpl implements UserDAO{
 
     @PersistenceContext
     private EntityManager entityManager;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserDAOImpl(EntityManager entityManager) {
+    public UserDAOImpl(EntityManager entityManager, PasswordEncoder passwordEncoder) {
         this.entityManager = entityManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -29,6 +29,7 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public void createUser(User user) {
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         entityManager.persist(user);
     }
 
@@ -39,6 +40,7 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public void update(User updatedUser) {
+        //updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         entityManager.merge(updatedUser);
     }
 
